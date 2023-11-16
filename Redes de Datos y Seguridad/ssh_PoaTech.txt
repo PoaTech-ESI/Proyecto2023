@@ -1,0 +1,18 @@
+enable
+config t
+interface vlan 1
+ip address 192.168.0.10 255.255.255.0
+no sh
+exit
+hostname sw1
+ip domain-name a.com
+crypto key generate rsa 
+1024
+ip ssh version 2
+line vty 0 15
+transport input ssh
+login local
+username user secret cisco123
+enable secret cisco1234
+
+ssh -l user 192.168.0.10

@@ -1,0 +1,102 @@
+//////RED : INFRAESTRUCTURA DE QUICKCARRY//////
+
+Lista de IPs:
+Router QC : 192.168.2.1
+PC-PT Administrador : 192.168.2.8
+PC-PT Gestor de Depósito : 192.168.2.12
+PC-PT Oficinista : 192.168.2.16
+PC-PT ORDENADOR 0 : 192.168.2.18
+
+# PC-PT Administrador #
+ip access-group 101 in
+interface fastEthernet 0
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.8 eq 50032 #(API - Autenticación)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.8 eq 50033 #(API - Tránsito)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.8 eq 50034 #(API - Almacén)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.8 eq 3306
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.8 eq 22
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.8 eq 443
+access-list 101 deny ip any any
+
+# PC-PT Gestor de depósito #
+ip access-group 101 in
+interface fastEthernet 0
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.12 eq 50032 #(API - Autenticación)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.12 eq 50033 #(API - Tránsito)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.12 eq 50034 #(API - Almacén)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.12 eq 443
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.12 eq 5938 #(TeamViewer)#
+access-list 101 deny ip any any
+
+# PC-PT Oficinista #
+ip access-group 101 in
+interface fastEthernet 0
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.16 eq 50032 #(API - Autenticación)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.16 eq 50033 #(API - Tránsito)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.16 eq 50034 #(API - Almacén)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.16 eq 443
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.16 eq 5938 #(TeamViewer)#
+access-list 101 deny ip any any
+
+# PC-PT ORDENADOR 0 #
+ip access-group 101 in
+interface fastEthernet 0
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.18 eq 50032 #(API - Autenticación)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.18 eq 50033 #(API - Tránsito)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.18 eq 50034 #(API - Almacén)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.18 eq 443
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.18 eq 22
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.2.18 eq 5938 #(TeamViewer)#
+access-list 101 deny ip any any
+
+
+
+
+
+//////RED : INALÁMBRICA DE CAMIONEROS//////
+
+Lista de IPs:
+Inalambrico : 192.168.1.1
+LAPTOP CHOFER : 192.168.1.5
+
+# LAPTOP CHOFER #
+ip access-group 101 in
+interface Wireless 0
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.1.5 eq 50032 #(API - Autenticación)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.1.5 eq 50033 #(API - Tránsito)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.1.5 eq 50034 #(API - Almacén)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.1.5 eq 443
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.1.5 eq 5938 #(TeamViewer)#
+access-list 101 deny ip any any
+
+
+
+
+
+//////RED : ALMACÉN//////
+
+Lista de IPs:
+Router ALM : 192.168.0.1
+Administrador ALMACEN : 192.168.0.5
+Oficinista 1 : 192.168.0.4
+
+# Administrador ALMACEN #
+ip access-group 101 in
+interface Wireless 0
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.0.5 eq 50032 #(API - Autenticación)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.0.5 eq 50033 #(API - Tránsito)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.0.5 eq 50034 #(API - Almacén)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.0.5 eq 3306
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.0.5 eq 22
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.0.5 eq 443
+access-list 101 deny ip any any
+
+# Oficinista 1 #
+ip access-group 101 in
+interface Wireless 0
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.0.5 eq 50032 #(API - Autenticación)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.0.5 eq 50033 #(API - Tránsito)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.0.5 eq 50034 #(API - Almacén)#
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.0.5 eq 443
+access-list 101 permit tcp 192.168.2.1 0.0.0.255 host 192.168.0.5 eq 5938 #(TeamViewer)#
+access-list 101 deny ip any any
