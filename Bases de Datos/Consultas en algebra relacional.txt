@@ -1,0 +1,14 @@
+1. Obtener todos los paquetes que están en tránsito:
+σ_estado = 'En tránsito' (paquetes)
+
+2. Listar todos los camioneros y la capacidad de su camión:
+π_nombre, apellido, capacidadLt (usuarios ⨝ usuarios.idUser = camion.chofer σ_roles = '2')
+
+3. Obtener las sesiones de login creadas en agosto de 2023:
+σ_created_at en Agosto 2023 (loginSessions)
+
+4. Obtener la dirección completa (dirección, calle y puerta) de todos los depósitos propios:
+π_direccion, calle, puerta (σ_flagDepPropio = 1 (depositos))
+
+5. Mostrar la descripción de los lotes que serán enviados al barrio Pocitos:
+π_descLote (σ_barrioDestino = 'Pocitos' (lotes))
