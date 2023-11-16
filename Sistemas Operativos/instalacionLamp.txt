@@ -1,0 +1,82 @@
+---
+- name: Instalar Apache en CentOS 7
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Instalar Apache
+      yum:
+        name: httpd
+        state: present
+
+    - name: Iniciar servicio de Apache
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+---
+- name: Instalar PHP en CentOS 7
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Instalar repositorio EPEL
+      yum:
+        name: epel-release
+        state: present
+
+    - name: Instalar PHP y módulos
+      yum:
+        name:
+          - php
+          - php-common
+          - php-cli
+          - php-fpm
+          - php-mysql
+          - php-gd
+          - php-xml
+        state: present
+
+    - name: Reiniciar servicio PHP-FPM
+      service:
+        name: php-fpm
+        state: restarted
+
+---
+- name: Instalar MySQL en CentOS 7
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Instalar repositorio MySQL
+      yum:
+        name: https://dev.mysql.com/get/mysql80-community-release-el7-3.noarch.rpm
+        state: present
+
+    - name: Instalar MySQL
+      yum:
+        name: mysql-community-server
+        state: present
+
+    - name: Iniciar servicio MySQL
+      service:
+        name: mysqld
+        state: started
+        enabled: yes
+
+    - name: Obtener contraseña temporal de MySQL
+      shell: "grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}'"
+      register: mysql_temp_password
+      changed_when: false
+
+    - name: Cambiar contraseña de MySQL
+      mysql_user:
+        login_user: root
+        login_password: "{{ mysql_temp_password.stdout }}"
+        user: root
+        password: root
+        host: localhost
+        update_password: always
+      when: mysql_temp_password.stdout is defined
+
+    - name: Eliminar contraseña temporal de MySQL
+      shell: "mysql -u root --password='{{ mysql_temp_password.stdout }}' --connect-expired-password -e \"ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';\""
+      when: mysql_temp_password.stdout is defined
