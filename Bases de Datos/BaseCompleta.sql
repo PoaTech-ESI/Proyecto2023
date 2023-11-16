@@ -1,4 +1,6 @@
--- MySQL dump 10.13  Distrib 8.0.34, for macos13 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `proyecto2023` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */;
+USE `proyecto2023`;
+-- MySQL dump 10.13  Distrib 8.0.34, for macos13 (arm64)
 --
 -- Host: 44.201.241.190    Database: proyecto2023
 -- ------------------------------------------------------
@@ -50,13 +52,14 @@ DROP TABLE IF EXISTS `depositos`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `depositos` (
   `idDeposito` int(11) NOT NULL AUTO_INCREMENT,
+  `descDeposito` varchar(45) DEFAULT NULL,
   `direccion` varchar(45) DEFAULT NULL,
   `calle` varchar(45) DEFAULT NULL,
   `puerta` varchar(45) DEFAULT NULL,
   `flagDelCliente` int(11) DEFAULT NULL,
   `flagDepPropio` int(11) DEFAULT NULL,
   PRIMARY KEY (`idDeposito`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +68,7 @@ CREATE TABLE `depositos` (
 
 LOCK TABLES `depositos` WRITE;
 /*!40000 ALTER TABLE `depositos` DISABLE KEYS */;
-INSERT INTO `depositos` VALUES (1,'Dirección 1','Calle A','Puerta 1',0,1),(2,'Dirección 2','Calle B','Puerta 2',0,1);
+INSERT INTO `depositos` VALUES (1,'Dep Principal','Dirección 12','Calle A','Puerta 1',0,1),(2,NULL,'Dirección 2','Calle B','Puerta 2',0,1),(4,'Dep Malvin','Montevideo','Asamblea','4528',NULL,NULL);
 /*!40000 ALTER TABLE `depositos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -133,12 +136,12 @@ CREATE TABLE `paquetes` (
   `descripcion` varchar(45) DEFAULT NULL,
   `peso` float DEFAULT NULL,
   `direccionDestino` varchar(45) DEFAULT NULL,
-  `propietario` varchar(45) DEFAULT NULL,
-  `estado` varchar(45) DEFAULT NULL,
+  `propietario` int(11) DEFAULT NULL,
+  `estado` int(11) DEFAULT NULL,
   `ubicacion` varchar(45) DEFAULT NULL,
   `idDeposito` int(11) DEFAULT NULL,
   PRIMARY KEY (`idPaquete`)
-) ENGINE=InnoDB AUTO_INCREMENT=544 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=546 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -147,7 +150,7 @@ CREATE TABLE `paquetes` (
 
 LOCK TABLES `paquetes` WRITE;
 /*!40000 ALTER TABLE `paquetes` DISABLE KEYS */;
-INSERT INTO `paquetes` VALUES (234,102,'Ropa',1.2,'Avenida Las Rosas 456','María Rodríguez','Entregado','Montevideo - Casavalle',2),(423,101,'Electrónicos',2.5,'Calle Los Alamos 123','Juan Pérez','En tránsito','Montevideo - Carrasco',1);
+INSERT INTO `paquetes` VALUES (234,0,'Ropa',1.2,'Avenida Las Rosas 456',5,0,'Montevideo - Casavalle',2),(423,101,'Electrónicos',2.5,'Calle Los Alamos 123',0,0,'Montevideo - Carrasco',1),(544,124,'pEPE',1.2,'Asamblea 4529',5,1,NULL,1);
 /*!40000 ALTER TABLE `paquetes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,7 +187,7 @@ DROP TABLE IF EXISTS `statusEnvio`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `statusEnvio` (
   `idStatus` int(11) NOT NULL AUTO_INCREMENT,
-  `desc` varchar(45) DEFAULT NULL,
+  `descStatus` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idStatus`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -226,9 +229,51 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'mauri','pepe','Mauricio','Vazquez','maurivaz1204@gmail.com',91808469,4,NULL),(2,'juanperez','pass1234','Juan','Pérez','juanperez@gmail.com',92345678,3,'2023-08-21 13:46:00'),(5,'anamartinez','ana7890','Ana','Martínez','anamartinez@gmail.com',99234569,1,'2023-09-16 09:05:00'),(6,'luisgonzalez','luis4567','Luis','González','luisgonzalez@gmail.com',96534680,2,'2023-08-11 11:30:00'),(8,'enzotes','pepe','Enzo','Zucchetti','pepe@pepe.com',1231231,2,NULL),(10,'pepe','pepe','pepe','pep','pepe@pepe.com',12312321,1,NULL);
+INSERT INTO `usuarios` VALUES (1,'mauri','pepe','Mauricio','Vazquez','maurivaz1204@gmail.com',91808469,4,NULL),(2,'juanperez','pass1234','Juan','Pérez','juanperez@gmail.com',92345678,3,'2023-08-21 13:46:00'),(5,'anamartinez','ana7890','Ana','Martínez','anamartinez@gmail.com',99234569,1,'2023-09-16 09:05:00'),(6,'luisgonzalez','luis4567','Luis','González','luisgonzalez@gmail.com',96534680,2,'2023-08-11 11:30:00'),(8,'enzotes','pepe','Enzo','Zucchetti','pepe@pepe.com',1231231,2,NULL),(10,'pepe2','pepe','pepe','pep','pepe@pepe.com',12312321,1,NULL);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Temporary view structure for view `vwPaquetes`
+--
+
+DROP TABLE IF EXISTS `vwPaquetes`;
+/*!50001 DROP VIEW IF EXISTS `vwPaquetes`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `vwPaquetes` AS SELECT 
+ 1 AS `idPaquete`,
+ 1 AS `idLote`,
+ 1 AS `descLote`,
+ 1 AS `descripcion`,
+ 1 AS `peso`,
+ 1 AS `direccionDestino`,
+ 1 AS `propietario`,
+ 1 AS `username`,
+ 1 AS `estado`,
+ 1 AS `descStatus`,
+ 1 AS `ubicacion`,
+ 1 AS `idDeposito`,
+ 1 AS `descDeposito`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Final view structure for view `vwPaquetes`
+--
+
+/*!50001 DROP VIEW IF EXISTS `vwPaquetes`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `vwPaquetes` AS select `p`.`idPaquete` AS `idPaquete`,`p`.`idLote` AS `idLote`,`l`.`descLote` AS `descLote`,`p`.`descripcion` AS `descripcion`,`p`.`peso` AS `peso`,`p`.`direccionDestino` AS `direccionDestino`,`p`.`propietario` AS `propietario`,`u`.`username` AS `username`,`p`.`estado` AS `estado`,`s`.`descStatus` AS `descStatus`,`p`.`ubicacion` AS `ubicacion`,`p`.`idDeposito` AS `idDeposito`,`d`.`descDeposito` AS `descDeposito` from ((((`paquetes` `p` left join `lotes` `l` on((`p`.`idLote` = `l`.`idLote`))) left join `usuarios` `u` on((`u`.`idUser` = `p`.`propietario`))) left join `statusEnvio` `s` on((`s`.`idStatus` = `p`.`estado`))) left join `depositos` `d` on((`d`.`idDeposito` = `p`.`idDeposito`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -239,4 +284,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-15 19:25:16
+-- Dump completed on 2023-11-15 23:26:47
