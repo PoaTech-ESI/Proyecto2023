@@ -1,0 +1,30 @@
+- name: configuracion SSH
+  hosts: QC_Server
+  become: yes
+
+  tasks:
+    - name: abrir servidor ssh
+      apt:
+        name: openssh-server  
+        state: present
+      become: yes
+
+    - name: arrancar y habilitar ssh
+      service:
+        name: ssh
+        state: started
+        enabled: yes
+      become: yes
+
+    - name: copiar el config file de ssh
+      copy:
+        src: files/sshd_config 
+        dest: /etc/ssh/sshd_config 
+      become: yes
+      notify: reiniciar servicio SSH
+
+  handlers:
+    - name: reiniciar servicio SSH
+      service:
+        name: ssh
+        state: restarted

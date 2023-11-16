@@ -1,0 +1,2 @@
+#!/bin/bash
+tar czf /home/QC_server/.backups/copias/ $(date +\%Y\%m\%d).tar.gz /home/QC_server/.data/BD_QuickCarry/

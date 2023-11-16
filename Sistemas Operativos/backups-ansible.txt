@@ -1,0 +1,35 @@
+---
+- name: copias de respaldo
+  hosts: QC_server
+  become: yes
+
+  tasks:
+    - name: exportar script para backups al servidor
+      copy:
+        src: scripts/{{ item }}
+        dest: /home/QC_server/.backups/scripts/{{ item }}
+      with_items:
+        - script_copia.sh
+
+    - name: tarea en cron para backup diaria
+      cron:
+        name: "Copia de respaldo diaria"
+        minute: 0
+        hour: 2
+        job: /home/QC_server/.backups/scripts/script_copia.sh
+
+    - name: tarea en cron para backup semanal
+      cron:
+        name: "Copia de respaldo semanal"
+        minute: 0
+        hour: 3
+        weekday: 0  
+        job: /home/QC_server/.backups/scripts/script_copia.sh
+
+    - name: tarea en cron para backup mensual
+      cron:
+        name: "Copia de respaldo mensual"
+        minute: 0
+        hour: 4
+        day: 1
+        job: /home/QC_server/.backups/scripts/script_copia.sh

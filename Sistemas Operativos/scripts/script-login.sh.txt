@@ -1,0 +1,40 @@
+#!/bin/bash
+
+exitosos() {
+    echo "Intentos de login exitosos:"
+    grep "Accepted password" /var/log/auth.log
+}
+
+fallidos() {
+    echo "Intentos de login fallidos:"
+    grep "Failed password" /var/log/auth.log
+}
+
+reportes() {
+    echo "Reportes de intentos de login:"
+    echo "###############################"
+    echo "Exitosos:"
+    grep -c "Accepted password" /var/log/auth.log
+    echo "Fallidos:"
+    grep -c "Failed password" /var/log/auth.log
+}
+
+main() {
+    echo "Elija una opción:"
+    echo "1. Mostrar intentos de login exitosos"
+    echo "2. Mostrar intentos de login fallidos"
+    echo "3. Mostrar reportes de intentos de login"
+    echo "4. Salir"
+
+    read op
+
+    case $op in
+        1) exitosos;;
+        2) fallidos;;
+        3) reportes;;
+        4) exit;;
+        *) echo "Opción Inválida";;
+    esac
+}
+
+main
